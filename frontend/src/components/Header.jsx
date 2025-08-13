@@ -37,14 +37,6 @@ const Header = () => {
             >
               Create
             </Link>
-            <a 
-              href="https://github.com/mythweaver/mythweaver" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-parchment/80 hover:text-gold transition-colors duration-300 font-medium"
-            >
-              GitHub
-            </a>
           </nav>
         </div>
       </div>

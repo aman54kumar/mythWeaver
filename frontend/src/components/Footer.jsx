@@ -105,7 +105,7 @@ const Footer = () => {
         <div className="mt-8 pt-6 border-t border-gold/10">
           <div className="flex flex-col md:flex-row justify-between items-center text-xs text-parchment/60">
             <p className="mb-2 md:mb-0">
-              © 2024 MythWeaver. All rights reserved. Built with respect for cultural heritage.
+              © 2025 MythWeaver. All rights reserved. Built with respect for cultural heritage.
             </p>
             <p className="text-center md:text-right">
               This site may contain affiliate links to books and cultural resources.
