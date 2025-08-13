@@ -29,9 +29,9 @@ class Settings(BaseSettings):
     # Redis Configuration (optional)
     REDIS_URL: str = ""
     
-    # Security
+    # Security  
     ALLOWED_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:3001", "https://mythweaver.fun", "https://www.mythweaver.fun", "https://*.onrender.com"]
-    ALLOWED_HOSTS: List[str] = ["localhost", "mythweaver.fun", "www.mythweaver.fun", "*.mythweaver.fun", "*.onrender.com"]
+    ALLOWED_HOSTS: List[str] = ["localhost", "mythweaver.fun", "www.mythweaver.fun", "*.mythweaver.fun", "*.onrender.com", "api.mythweaver.fun"]
     
     # Rate Limiting
     RATE_LIMIT_REQUESTS: int = 20
