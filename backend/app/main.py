@@ -97,6 +97,7 @@ app.include_router(generate.router, prefix="/api/v1", tags=["generation"])
 
 
 @app.get("/")
+@app.head("/")
 async def root():
     """Root endpoint"""
     return {"message": "MythWeaver API", "version": "1.0.0"}
