@@ -63,11 +63,16 @@ const InputPage = () => {
         tone
       })
       
+      // Generate unique story ID
+      const storyId = Date.now().toString()
+      
       // Store the response for the story page
       sessionStorage.setItem('mythData', JSON.stringify(response))
       
+      // Also save to localStorage for shareable links
+      localStorage.setItem(`story_${storyId}`, JSON.stringify(response))
+      
       // Navigate to story page with unique ID
-      const storyId = Date.now().toString()
       navigate(`/story/${storyId}`)
       
     } catch (error) {

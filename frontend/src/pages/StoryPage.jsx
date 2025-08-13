@@ -25,12 +25,32 @@ const StoryPage = () => {
   const [isTyping, setIsTyping] = useState(true)
 
   useEffect(() => {
-    // Get myth data from session storage
+    // Try to get myth data from localStorage first (persistent)
+    const persistentData = localStorage.getItem(`story_${id}`)
+    if (persistentData) {
+      try {
+        const data = JSON.parse(persistentData)
+        setMythData(data)
+        
+        // Start typing animation
+        setTimeout(() => {
+          setIsTyping(false)
+        }, 2000)
+        return
+      } catch (error) {
+        console.error('Failed to parse persistent story data:', error)
+      }
+    }
+    
+    // Fallback to session storage (for current session)
     const storedData = sessionStorage.getItem('mythData')
     if (storedData) {
       try {
         const data = JSON.parse(storedData)
         setMythData(data)
+        
+        // Save to localStorage for future sharing
+        localStorage.setItem(`story_${id}`, storedData)
         
         // Start typing animation
         setTimeout(() => {
@@ -41,7 +61,7 @@ const StoryPage = () => {
         navigate('/')
       }
     } else {
-      toast.error('No story data found')
+      toast.error('Story not found. This link may have expired.')
       navigate('/')
     }
   }, [id, navigate])
@@ -53,7 +73,7 @@ const StoryPage = () => {
   const handleShare = async (platform) => {
     const url = window.location.href
     const title = mythData?.title || 'My Ancient Myth'
-    const text = `Check out my personalized myth: "${title}" created with Mythosync!`
+    const text = `Check out my personalized myth: "${title}" created with MythWeaver!`
     
     switch (platform) {
       case 'twitter':
@@ -64,7 +84,7 @@ const StoryPage = () => {
         break
       case 'copy':
         try {
-          await navigator.clipboard.writeText(`${text} ${url}`)
+          await navigator.clipboard.writeText(url)
           toast.success('Link copied to clipboard!')
         } catch (error) {
           toast.error('Failed to copy link')
