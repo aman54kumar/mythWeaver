@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 import { 
@@ -10,61 +10,86 @@ import {
   Sparkles, 
   Twitter,
   Copy,
-  RefreshCw
+  RefreshCw,
+  FileText,
+  Image as ImageIcon
 } from 'lucide-react'
 import MythCard from '../components/MythCard'
 import ChoiceCard from '../components/ChoiceCard'
 import ShareModal from '../components/ShareModal'
+import { generateMythAPI } from '../services/api'
+import { generateStoryPDF, generateShareImage, downloadBlob } from '../services/pdfGenerator'
 
 const StoryPage = () => {
-  const { id } = useParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const [mythData, setMythData] = useState(null)
   const [selectedChoice, setSelectedChoice] = useState(null)
   const [showShareModal, setShowShareModal] = useState(false)
   const [isTyping, setIsTyping] = useState(true)
+  const [isRegenerating, setIsRegenerating] = useState(false)
+  const [originalScenario, setOriginalScenario] = useState('')
 
   useEffect(() => {
-    // Try to get myth data from localStorage first (persistent)
-    const persistentData = localStorage.getItem(`story_${id}`)
-    if (persistentData) {
-      try {
-        const data = JSON.parse(persistentData)
-        setMythData(data)
-        
-        // Start typing animation
-        setTimeout(() => {
-          setIsTyping(false)
-        }, 2000)
-        return
-      } catch (error) {
-        console.error('Failed to parse persistent story data:', error)
+    const loadStory = async () => {
+      // First try to get from session storage (current session)
+      const storedData = sessionStorage.getItem('mythData')
+      const storedScenario = sessionStorage.getItem('inputScenario')
+      
+      if (storedData && storedScenario) {
+        try {
+          const data = JSON.parse(storedData)
+          setMythData(data)
+          setOriginalScenario(storedScenario)
+          
+          setTimeout(() => {
+            setIsTyping(false)
+          }, 2000)
+          return
+        } catch (error) {
+          console.error('Failed to parse session data:', error)
+        }
+      }
+      
+      // If no session data, try to regenerate from URL parameters
+      const scenario = searchParams.get('scenario')
+      const culture = searchParams.get('culture')
+      const tone = searchParams.get('tone')
+      
+      if (scenario && culture && tone) {
+        setIsRegenerating(true)
+        try {
+          toast.loading('Regenerating your myth...')
+          const response = await generateMythAPI({
+            scenario: scenario.trim(),
+            culture,
+            tone
+          })
+          
+          setMythData(response)
+          setOriginalScenario(scenario)
+          toast.dismiss()
+          toast.success('Myth regenerated successfully!')
+          
+          setTimeout(() => {
+            setIsTyping(false)
+          }, 2000)
+        } catch (error) {
+          console.error('Error regenerating myth:', error)
+          toast.dismiss()
+          toast.error('Failed to regenerate myth. Please try again.')
+          navigate('/')
+        } finally {
+          setIsRegenerating(false)
+        }
+      } else {
+        toast.error('Story not found. Please create a new myth.')
+        navigate('/')
       }
     }
     
-    // Fallback to session storage (for current session)
-    const storedData = sessionStorage.getItem('mythData')
-    if (storedData) {
-      try {
-        const data = JSON.parse(storedData)
-        setMythData(data)
-        
-        // Save to localStorage for future sharing
-        localStorage.setItem(`story_${id}`, storedData)
-        
-        // Start typing animation
-        setTimeout(() => {
-          setIsTyping(false)
-        }, 2000)
-      } catch (error) {
-        toast.error('Failed to load story data')
-        navigate('/')
-      }
-    } else {
-      toast.error('Story not found. This link may have expired.')
-      navigate('/')
-    }
-  }, [id, navigate])
+    loadStory()
+  }, [searchParams, navigate])
 
   const handleChoiceSelect = (choice) => {
     setSelectedChoice(choice)
@@ -96,37 +121,38 @@ const StoryPage = () => {
     setShowShareModal(false)
   }
 
-  const handleDownload = () => {
-    if (!mythData) return
+  const handleDownloadPDF = async () => {
+    if (!mythData || !originalScenario) return
     
-    const content = `
-${mythData.title}
+    try {
+      toast.loading('Generating PDF...')
+      const pdfBlob = await generateStoryPDF(mythData, originalScenario)
+      const filename = `${mythData.title.replace(/[^a-zA-Z0-9]/g, '_')}_myth.pdf`
+      downloadBlob(pdfBlob, filename)
+      toast.dismiss()
+      toast.success('PDF downloaded!')
+    } catch (error) {
+      toast.dismiss()
+      toast.error('Failed to generate PDF')
+      console.error('PDF generation error:', error)
+    }
+  }
 
-${mythData.adapted_story}
-
-Interactive Endings:
-
-${mythData.choices.map((choice, index) => 
-  `${index + 1}. ${choice.label}: ${choice.outcome}`
-).join('\n\n')}
-
----
-Generated with MythWeaver.fun
-Cultural Tradition: ${mythData.meta.culture}
-Source Motif: ${mythData.meta.source_motif}
-    `.trim()
+  const handleDownloadImage = async () => {
+    if (!mythData || !originalScenario) return
     
-    const blob = new Blob([content], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${mythData.title.replace(/[^a-zA-Z0-9]/g, '_')}_myth.txt`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-    
-    toast.success('Myth downloaded!')
+    try {
+      toast.loading('Generating shareable image...')
+      const imageBlob = await generateShareImage(mythData, originalScenario)
+      const filename = `${mythData.title.replace(/[^a-zA-Z0-9]/g, '_')}_myth.png`
+      downloadBlob(imageBlob, filename)
+      toast.dismiss()
+      toast.success('Image downloaded!')
+    } catch (error) {
+      toast.dismiss()
+      toast.error('Failed to generate image')
+      console.error('Image generation error:', error)
+    }
   }
 
   if (!mythData) {
@@ -174,13 +200,22 @@ Source Motif: ${mythData.meta.source_motif}
                 Share
               </motion.button>
               <motion.button
-                onClick={handleDownload}
+                onClick={handleDownloadPDF}
                 className="btn-secondary flex items-center"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Download className="w-4 h-4 mr-2" />
-                Download
+                <FileText className="w-4 h-4 mr-2" />
+                PDF
+              </motion.button>
+              <motion.button
+                onClick={handleDownloadImage}
+                className="btn-secondary flex items-center"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ImageIcon className="w-4 h-4 mr-2" />
+                Image
               </motion.button>
             </div>
           </motion.div>
@@ -212,6 +247,25 @@ Source Motif: ${mythData.meta.source_motif}
               {mythData.meta.culture} Tradition
             </p>
           </motion.div>
+
+          {/* Original Scenario */}
+          {originalScenario && (
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <div className="card bg-gold/5 border-gold/20">
+                <h3 className="text-lg font-serif font-semibold text-gold mb-3">
+                  Your Modern Scenario
+                </h3>
+                <p className="text-parchment/80 italic">
+                  "{originalScenario}"
+                </p>
+              </div>
+            </motion.div>
+          )}
 
           {/* Main Story */}
           <motion.div

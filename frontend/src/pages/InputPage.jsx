@@ -63,17 +63,19 @@ const InputPage = () => {
         tone
       })
       
-      // Generate unique story ID
-      const storyId = Date.now().toString()
-      
       // Store the response for the story page
       sessionStorage.setItem('mythData', JSON.stringify(response))
+      sessionStorage.setItem('inputScenario', scenario.trim())
       
-      // Also save to localStorage for shareable links
-      localStorage.setItem(`story_${storyId}`, JSON.stringify(response))
+      // Create shareable URL with encoded parameters
+      const params = new URLSearchParams({
+        scenario: scenario.trim(),
+        culture,
+        tone
+      })
       
-      // Navigate to story page with unique ID
-      navigate(`/story/${storyId}`)
+      // Navigate to story page with parameters
+      navigate(`/story?${params.toString()}`)
       
     } catch (error) {
       console.error('Error generating myth:', error)
