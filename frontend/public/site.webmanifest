@@ -1,0 +1,22 @@
+{
+  "name": "MythWeaver - Weaving Ancient Myths into Modern Stories",
+  "short_name": "MythWeaver",
+  "description": "AI-powered interactive storytelling that transforms modern scenarios into captivating ancient myths.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#c59b45",
+  "background_color": "#0b1020",
+  "orientation": "portrait-primary"
+}

@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-midnight text-parchment font-sans antialiased;
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(197, 155, 69, 0.15) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+  
+  * {
+    @apply scrollbar-thin scrollbar-thumb-gold scrollbar-track-midnight-light;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply relative overflow-hidden bg-gradient-to-r from-gold to-gold-light text-midnight 
+           font-semibold px-8 py-3 rounded-lg transition-all duration-300 
+           hover:scale-105 hover:shadow-lg hover:shadow-gold/25
+           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-midnight;
+  }
+  
+  .btn-primary::before {
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent 
+           opacity-0 transform -skew-x-12 -translate-x-full transition-transform duration-700;
+    content: '';
+  }
+  
+  .btn-primary:hover::before {
+    @apply opacity-25 translate-x-full;
+  }
+  
+  .btn-secondary {
+    @apply border-2 border-gold text-gold bg-transparent px-6 py-2 rounded-lg
+           transition-all duration-300 hover:bg-gold hover:text-midnight
+           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-midnight;
+  }
+  
+  .input-field {
+    @apply w-full bg-midnight-light border border-gold/30 rounded-lg px-4 py-3
+           text-parchment placeholder-parchment/60 resize-none
+           focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold
+           transition-all duration-300;
+  }
+  
+  .card {
+    @apply bg-midnight-light border border-gold/20 rounded-xl p-6 
+           backdrop-blur-sm shadow-lg hover:shadow-xl
+           transition-all duration-300;
+  }
+  
+  .choice-card {
+    @apply card cursor-pointer transform hover:scale-105 hover:border-gold/50
+           hover:shadow-gold/20 active:scale-95 transition-all duration-200;
+  }
+  
+  .choice-card.selected {
+    @apply border-gold bg-gold/10;
+    box-shadow: 0 0 20px rgba(197, 155, 69, 0.5);
+  }
+  
+  .myth-text {
+    @apply font-serif leading-relaxed text-lg text-parchment/90;
+  }
+  
+  .myth-text p {
+    @apply mb-4;
+  }
+  
+  .myth-text p:last-child {
+    @apply mb-0;
+  }
+  
+  .loading-skeleton {
+    @apply animate-pulse bg-gold/20 rounded;
+  }
+  
+  .starfield-bg {
+    background-image: 
+      radial-gradient(2px 2px at 20px 30px, rgba(197, 155, 69, 0.8), transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(246, 237, 217, 0.6), transparent),
+      radial-gradient(1px 1px at 90px 40px, rgba(197, 155, 69, 0.5), transparent),
+      radial-gradient(1px 1px at 130px 80px, rgba(246, 237, 217, 0.7), transparent),
+      radial-gradient(2px 2px at 160px 30px, rgba(197, 155, 69, 0.4), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: float 20s linear infinite;
+  }
+  
+  @keyframes float {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200px 100px; }
+  }
+}
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 10px rgba(197, 155, 69, 0.5);
+  }
+  
+  .border-gradient {
+    background: linear-gradient(45deg, transparent, #c59b45, transparent);
+    background-size: 200% 200%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-thumb-gold {
+    scrollbar-color: #c59b45 #1a2332;
+  }
+  
+  .scrollbar-track-midnight-light {
+    /* Handled by scrollbar-color above */
+  }
+}

@@ -1,0 +1,65 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gold gradient -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C59B45;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Bronze gradient -->
+    <linearGradient id="bronzeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CD7F32;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#B87333;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A0522D;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Weaving threads background -->
+  <g opacity="0.3">
+    <path d="M10,15 Q30,5 50,15 T90,15" stroke="url(#bronzeGradient)" stroke-width="1" fill="none"/>
+    <path d="M10,25 Q30,35 50,25 T90,25" stroke="url(#goldGradient)" stroke-width="1" fill="none"/>
+    <path d="M10,35 Q30,25 50,35 T90,35" stroke="url(#bronzeGradient)" stroke-width="1" fill="none"/>
+    <path d="M10,45 Q30,55 50,45 T90,45" stroke="url(#goldGradient)" stroke-width="1" fill="none"/>
+  </g>
+  
+  <!-- Main icon - Loom/Weaving symbol -->
+  <g transform="translate(10, 10)">
+    <!-- Loom frame -->
+    <rect x="0" y="0" width="40" height="40" fill="none" stroke="url(#goldGradient)" stroke-width="2" rx="3"/>
+    
+    <!-- Vertical threads -->
+    <line x1="8" y1="0" x2="8" y2="40" stroke="url(#goldGradient)" stroke-width="1" opacity="0.7"/>
+    <line x1="16" y1="0" x2="16" y2="40" stroke="url(#goldGradient)" stroke-width="1" opacity="0.7"/>
+    <line x1="24" y1="0" x2="24" y2="40" stroke="url(#goldGradient)" stroke-width="1" opacity="0.7"/>
+    <line x1="32" y1="0" x2="32" y2="40" stroke="url(#goldGradient)" stroke-width="1" opacity="0.7"/>
+    
+    <!-- Horizontal weaving threads -->
+    <path d="M0,12 Q8,8 16,12 T32,12 T40,12" stroke="url(#bronzeGradient)" stroke-width="2" fill="none"/>
+    <path d="M0,20 Q8,24 16,20 T32,20 T40,20" stroke="url(#goldGradient)" stroke-width="2" fill="none"/>
+    <path d="M0,28 Q8,24 16,28 T32,28 T40,28" stroke="url(#bronzeGradient)" stroke-width="2" fill="none"/>
+    
+    <!-- Central mystical symbol -->
+    <circle cx="20" cy="20" r="6" fill="none" stroke="url(#goldGradient)" stroke-width="2" filter="url(#glow)"/>
+    <path d="M20,14 L23,20 L20,26 L17,20 Z" fill="url(#goldGradient)" opacity="0.8"/>
+  </g>
+  
+  <!-- Text -->
+  <g transform="translate(60, 15)">
+    <text x="0" y="20" font-family="serif" font-size="24" font-weight="bold" fill="url(#goldGradient)" filter="url(#glow)">
+      MythWeaver
+    </text>
+    <text x="0" y="35" font-family="sans-serif" font-size="10" fill="url(#bronzeGradient)" opacity="0.8">
+      Weaving ancient myths into modern stories
+    </text>
+  </g>
+</svg>

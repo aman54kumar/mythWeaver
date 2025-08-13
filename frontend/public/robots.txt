@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mythweaver.fun/sitemap.xml
+
+# Optimization
+Crawl-delay: 1
+
+# Disallow admin paths (if any)
+Disallow: /admin/
+Disallow: /api/
+
+# Allow specific pages
+Allow: /
+Allow: /privacy
+Allow: /terms

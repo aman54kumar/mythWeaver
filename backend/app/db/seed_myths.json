@@ -1,0 +1,52 @@
+[
+  {
+    "culture": "greek",
+    "motif": "Journey to underworld; hero aided by a cunning guide; test by riddles",
+    "description": "Based on Orpheus and Eurydice, Perseus myths from public domain sources"
+  },
+  {
+    "culture": "norse", 
+    "motif": "Tree of worlds; binding oath; trickster changes fate",
+    "description": "Inspired by Prose Edda and Poetic Edda motifs"
+  },
+  {
+    "culture": "indian",
+    "motif": "Divine boon and curse; river as purification; guru advice",
+    "description": "Drawing from Ramayana, Mahabharata public domain translations"
+  },
+  {
+    "culture": "japanese",
+    "motif": "Honor and duty; seasonal change; ancestor guidance; mirror and sword",
+    "description": "Based on Kojiki and Nihon Shoki ancient chronicles"
+  },
+  {
+    "culture": "egyptian",
+    "motif": "Death and rebirth; solar journey; sacred geometry; weighing of heart",
+    "description": "Inspired by Book of the Dead and pyramid texts"
+  },
+  {
+    "culture": "celtic",
+    "motif": "Otherworld journey; sacred grove; three-fold blessing; cauldron of plenty",
+    "description": "Drawing from Mabinogion and Irish mythological cycles"
+  },
+  {
+    "culture": "chinese",
+    "motif": "Balance of opposites; heavenly mandate; dragon transformation; jade emperor",
+    "description": "Based on Classic of Mountains and Seas, Journey to the West"
+  },
+  {
+    "culture": "african",
+    "motif": "Ancestor wisdom; animal guide; community ritual; talking drum",
+    "description": "Inspired by traditional Yoruba, Ashanti, and Bantu folklore"
+  },
+  {
+    "culture": "native_american",
+    "motif": "Great spirit vision; nature harmony; sacred circle; four directions",
+    "description": "Drawing from pan-tribal motifs and public domain collections"
+  },
+  {
+    "culture": "mesopotamian",
+    "motif": "Flood narrative; divine assembly; hero seeks immortality; tablets of destiny",
+    "description": "Based on Epic of Gilgamesh and Enuma Elish"
+  }
+]
