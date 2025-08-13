@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: mythweaver-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: BACKEND_HOST
+        value: 0.0.0.0
+      - key: BACKEND_PORT
+        value: 8000
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        value: sqlite:///./data/app.db
+      - key: USE_OPENAI_MODERATION
+        value: true
+      - key: RATE_LIMIT_REQUESTS
+        value: 20
+      - key: RATE_LIMIT_WINDOW
+        value: 3600
+    healthCheckPath: /api/v1/health
+    
+  - type: web
+    name: mythweaver-frontend
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      - key: VITE_API_URL
+        value: https://mythweaver-backend.onrender.com/api/v1
